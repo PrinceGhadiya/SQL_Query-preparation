@@ -1,140 +1,240 @@
 
+### **Basic Commands**
+1. **Create a Database**
+   ```sql
+   sqlite3 database_name.db
+   ```
 
-# SQL Queries Documentation
+2. **Open a Database**
+   ```sql
+   .open database_name.db
+   ```
 
-This repository contains essential SQL queries for database operations. Each query is briefly described for quick reference.
+3. **Show Tables in a Database**
+   ```sql
+   .tables
+   ```
 
-## Table of Contents
-- [Create Table](#create-table)
-- [Insert Data](#insert-data)
-- [Select Data](#select-data)
-- [Update Data](#update-data)
-- [Delete Data](#delete-data)
-- [Join Tables](#join-tables)
-- [Aggregate Functions](#aggregate-functions)
-- [Order and Limit](#order-and-limit)
-- [Search Query](#search-query)
-- [Alter Table](#alter-table)
+4. **Describe a Table (Schema)**
+   ```sql
+   PRAGMA table_info(table_name);
+   ```
 
----
-
-### Create Table
-```sql
-CREATE TABLE table_name (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(255) NOT NULL,
-    age INT NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-```
-**Description:**  
-This query creates a new table with fields `id`, `name`, `age`, and `created_at`. The `id` is auto-incremented and serves as the primary key.
+5. **Exit SQLite**
+   ```sql
+   .exit
+   ```
 
 ---
 
-### Insert Data
-```sql
-INSERT INTO table_name (name, age) VALUES ('John Doe', 25);
-```
-**Description:**  
-Inserts a new row into the table with the values for `name` and `age`. 
+### **Table Management**
+1. **Create a Table**
+   ```sql
+   CREATE TABLE table_name (
+       column1 datatype PRIMARY KEY,
+       column2 datatype,
+       column3 datatype
+   );
+   ```
+
+2. **Drop a Table**
+   ```sql
+   DROP TABLE table_name;
+   ```
+
+3. **Alter a Table**
+   - Add a column:
+     ```sql
+     ALTER TABLE table_name ADD COLUMN column_name datatype;
+     ```
+   - Rename a table:
+     ```sql
+     ALTER TABLE old_table_name RENAME TO new_table_name;
+     ```
 
 ---
 
-### Select Data
-```sql
-SELECT * FROM table_name;
-```
-**Description:**  
-Fetches all data from the specified table.
+### **Data Manipulation**
+1. **Insert Data**
+   ```sql
+   INSERT INTO table_name (column1, column2) VALUES (value1, value2);
+   ```
 
-```sql
-SELECT name, age FROM table_name WHERE age > 20;
-```
-**Description:**  
-Selects specific columns (`name` and `age`) where the `age` is greater than 20.
+2. **Insert Multiple Rows**
+   ```sql
+   INSERT INTO table_name (column1, column2)
+   VALUES
+       (value1, value2),
+       (value3, value4);
+   ```
 
----
+3. **Select Data**
+   - Select all columns:
+     ```sql
+     SELECT * FROM table_name;
+     ```
+   - Select specific columns:
+     ```sql
+     SELECT column1, column2 FROM table_name;
+     ```
 
-### Update Data
-```sql
-UPDATE table_name SET age = 26 WHERE name = 'John Doe';
-```
-**Description:**  
-Updates the `age` field for the row where `name` is 'John Doe'.
+4. **Update Data**
+   ```sql
+   UPDATE table_name
+   SET column1 = value1, column2 = value2
+   WHERE condition;
+   ```
 
----
-
-### Delete Data
-```sql
-DELETE FROM table_name WHERE id = 1;
-```
-**Description:**  
-Deletes the row with a specific `id`.
-
----
-
-### Join Tables
-```sql
-SELECT a.name, b.order_date 
-FROM customers a 
-INNER JOIN orders b 
-ON a.id = b.customer_id;
-```
-**Description:**  
-Performs an inner join to retrieve data from two related tables (`customers` and `orders`).
+5. **Delete Data**
+   ```sql
+   DELETE FROM table_name WHERE condition;
+   ```
 
 ---
 
-### Aggregate Functions
-```sql
-SELECT COUNT(*) FROM table_name;
-```
-**Description:**  
-Counts the total number of rows in a table.
+### **Filtering and Sorting**
+1. **Where Clause**
+   ```sql
+   SELECT * FROM table_name WHERE column1 = value1;
+   ```
 
-```sql
-SELECT AVG(age) FROM table_name;
-```
-**Description:**  
-Calculates the average `age` from the table.
+2. **Like Clause (Search)**
+   ```sql
+   SELECT * FROM table_name WHERE column1 LIKE '%value%';
+   ```
 
----
+3. **Order By**
+   ```sql
+   SELECT * FROM table_name ORDER BY column1 ASC;
+   SELECT * FROM table_name ORDER BY column1 DESC;
+   ```
 
-### Order and Limit
-```sql
-SELECT name, age FROM table_name ORDER BY age DESC LIMIT 5;
-```
-**Description:**  
-Selects `name` and `age`, orders the result by `age` in descending order, and limits the output to 5 rows.
-
----
-
-### Search Query
-```sql
-SELECT * FROM table_name WHERE name LIKE '%Doe%';
-```
-**Description:**  
-Searches for records where the `name` contains 'Doe'.
+4. **Limit Results**
+   ```sql
+   SELECT * FROM table_name LIMIT number;
+   ```
 
 ---
 
-### Alter Table
-```sql
-ALTER TABLE table_name ADD COLUMN email VARCHAR(255);
-```
-**Description:**  
-Adds a new column `email` to the existing table.
+### **Joins**
+1. **Inner Join**
+   ```sql
+   SELECT columns
+   FROM table1
+   INNER JOIN table2
+   ON table1.column_name = table2.column_name;
+   ```
 
-```sql
-ALTER TABLE table_name DROP COLUMN email;
-```
-**Description:**  
-Removes the `email` column from the table.
+2. **Left Join**
+   ```sql
+   SELECT columns
+   FROM table1
+   LEFT JOIN table2
+   ON table1.column_name = table2.column_name;
+   ```
+
+3. **Right Join**
+   SQLite does not support right joins directly, but you can switch the tables in a left join.
 
 ---
 
-### Conclusion
+### **Aggregations**
+1. **Count**
+   ```sql
+   SELECT COUNT(*) FROM table_name;
+   ```
 
-These SQL queries cover common database operations. For more complex queries, refer to specific database documentation or consult an SQL guide. **Make sure to test each query in your development environment before running it in production.**
+2. **Sum**
+   ```sql
+   SELECT SUM(column_name) FROM table_name;
+   ```
 
+3. **Average**
+   ```sql
+   SELECT AVG(column_name) FROM table_name;
+   ```
+
+4. **Group By**
+   ```sql
+   SELECT column_name, COUNT(*)
+   FROM table_name
+   GROUP BY column_name;
+   ```
+
+5. **Having**
+   ```sql
+   SELECT column_name, COUNT(*)
+   FROM table_name
+   GROUP BY column_name
+   HAVING COUNT(*) > value;
+   ```
+
+---
+
+### **Transactions**
+1. **Start Transaction**
+   ```sql
+   BEGIN TRANSACTION;
+   ```
+
+2. **Commit Transaction**
+   ```sql
+   COMMIT;
+   ```
+
+3. **Rollback Transaction**
+   ```sql
+   ROLLBACK;
+   ```
+
+---
+
+### **Indexing**
+1. **Create Index**
+   ```sql
+   CREATE INDEX index_name ON table_name (column_name);
+   ```
+
+2. **Drop Index**
+   ```sql
+   DROP INDEX index_name;
+   ```
+
+---
+
+### **Advanced**
+1. **Create a View**
+   ```sql
+   CREATE VIEW view_name AS
+   SELECT columns FROM table_name WHERE condition;
+   ```
+
+2. **Delete a View**
+   ```sql
+   DROP VIEW view_name;
+   ```
+
+3. **Execute Raw SQL**
+   ```sql
+   .read file_name.sql
+   ```
+
+4. **Vacuum the Database (Optimize)**
+   ```sql
+   VACUUM;
+   ```
+
+5. **Foreign Keys**
+   - Enable foreign keys:
+     ```sql
+     PRAGMA foreign_keys = ON;
+     ```
+   - Create a table with foreign keys:
+     ```sql
+     CREATE TABLE table_name (
+         column1 datatype PRIMARY KEY,
+         column2 datatype,
+         column3 datatype,
+         FOREIGN KEY (column3) REFERENCES other_table(column)
+     );
+     ```
